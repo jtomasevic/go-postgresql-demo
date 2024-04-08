@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  postgres:
+      image: imdb-db
+      container_name: imdb-db
+      ports:
+        - '5432:5432'
+      networks:
+        - my_network
+      volumes:
+        - imdb-data:/var/lib/postgresql/data/
+networks:
+  my_network: 
+
+volumes:
+  imdb-data:

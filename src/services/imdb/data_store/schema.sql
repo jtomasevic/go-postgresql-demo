@@ -1,0 +1,55 @@
+
+CREATE TABLE IF NOT EXISTS Movies (
+    ID UUID PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    ReleaseYear INT    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Actors (
+    ID UUID PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    BirthYear INT
+);
+
+CREATE TABLE IF NOT EXISTS Directors (
+    ID UUID PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    BirthYear INT
+);
+
+CREATE TABLE IF NOT EXISTS Reviews (
+    ID UUID PRIMARY KEY,
+    MovieID UUID NOT NULL,
+    Comment TEXT NOT NULL,
+    Rating INT NOT NULL,
+    CommentTime   TIMESTAMP NOT NULL,
+    FOREIGN KEY (MovieID) REFERENCES Movies(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Awards (
+    ID UUID PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Year INT NOT NULL,
+    MovieID UUID NOT NULL,
+    ActorID UUID,
+    DirectorID UUID,
+    FOREIGN KEY (MovieID) REFERENCES Movies(ID),
+    FOREIGN KEY (ActorID) REFERENCES Actors(ID),
+    FOREIGN KEY (DirectorID) REFERENCES Directors(ID)
+);
+
+CREATE TABLE MovieActors (
+    MovieID UUID NOT NULL,
+    ActorID UUID NOT NULL,
+    FOREIGN KEY (MovieID) REFERENCES Movies(ID),
+    FOREIGN KEY (ActorID) REFERENCES Actors(ID),
+    PRIMARY KEY (MovieID, ActorID)
+);
+
+CREATE TABLE IF NOT EXISTS MovieDirectors (
+    MovieID UUID NOT NULL,
+    DirectorID UUID NOT NULL,
+    FOREIGN KEY (MovieID) REFERENCES Movies(ID),
+    FOREIGN KEY (DirectorID) REFERENCES Directors(ID),
+    PRIMARY KEY (MovieID, DirectorID)
+);
